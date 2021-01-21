@@ -4,6 +4,6 @@ from . import views
 
 urlpatterns = [
     path('fibonacci/<int:number>', views.fibonacci, name='fibonacci'),
-    # path('factorial/<int:number>', views.factorial, name='factorial'),
+    path('factorial/<int:number>', views.factorial, name='factorial'),
 
 ]

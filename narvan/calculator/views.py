@@ -18,18 +18,18 @@ def fibonacci(request, number):
             response = {'error': 'number must be positive'}
     return JsonResponse(response)
 
-#
-# def fac(number):
-#     fac_sum = 1
-#     for i in range(1, number+1):
-#         fac_sum *= i
-#     return fac_sum
-#
-#
-# def factorial(request, number):
-#     if request.method == 'GET':
-#         if number >= 0:
-#             response = {f'factorial( {number} )': fac(number)}
-#         else:
-#             response = {'error': 'number must be positive'}
-#     return JsonResponse(response)
+
+def fac(number):
+    fac_sum = 1
+    for i in range(1, number+1):
+        fac_sum *= i
+    return fac_sum
+
+
+def factorial(request, number):
+    if request.method == 'GET':
+        if number >= 0:
+            response = {f'factorial( {number} )': fac(number)}
+        else:
+            response = {'error': 'number must be positive'}
+    return JsonResponse(response)
