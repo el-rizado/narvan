@@ -13,8 +13,8 @@ def fibonacci(request):
     if number > 0:
         response = {f'fibonacci({number})': fib(number-1)}
     else:
-        response = 'number must be positive'
-        return HttpResponseBadRequest(response)
+        response = {'error': 'number must be positive'}
+        return JsonResponse(response, encoder=JSONEncoder, status=400)
     return JsonResponse(response, encoder=JSONEncoder)
 
 
@@ -30,8 +30,8 @@ def factorial(request):
     if number >= 0:
         response = {f'factorial({number})': fac(number)}
     else:
-        response = 'number must be equal or greater than 0'
-        return HttpResponseBadRequest(response)
+        response = {'error': 'number must be equal or greater than 0'}
+        return JsonResponse(response, encoder=JSONEncoder, status=400)
     return JsonResponse(response, encoder=JSONEncoder)
 
 
@@ -50,6 +50,6 @@ def ackermann(request):
     if number1 >= 0 and number2 >= 0:
         response = {f'ackermann({number1},{number2})': ack(number1, number2)}
     else:
-        response = 'numbers must be equal or greater than 0'
-        return HttpResponseBadRequest(response)
+        response = {'error': 'numbers must be equal or greater than 0'}
+        return JsonResponse(response, encoder=JSONEncoder, status=400)
     return JsonResponse(response, encoder=JSONEncoder)
