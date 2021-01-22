@@ -1,2 +1,2 @@
 # narvan
-web service task for Narvan Company
+web service (REST API) task for Narvan Company
