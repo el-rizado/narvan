@@ -1,5 +1,6 @@
 from json import JSONEncoder
-from django.http import JsonResponse, HttpResponseBadRequest
+from time import time
+from django.http import JsonResponse
 
 
 def fib(number):
@@ -9,13 +10,24 @@ def fib(number):
 
 
 def fibonacci(request):
-    number = int(request.GET['number'])
-    if number > 0:
-        response = {f'fibonacci({number})': fib(number-1)}
-    else:
-        response = {'error': 'number must be positive'}
+    try:
+        number = int(request.GET['number'])
+        if number > 0:
+            start = time()
+            result = fib(number-1)
+            end = time()
+            runtime = end - start
+            response = {
+                f'fibonacci({number})': result,
+                'runtime': runtime
+            }
+            return JsonResponse(response, encoder=JSONEncoder)
+        else:
+            response = {'error': 'number must be positive'}
+            return JsonResponse(response, encoder=JSONEncoder, status=400)
+    except Exception:
+        response = {'error': 'argument must be integer'}
         return JsonResponse(response, encoder=JSONEncoder, status=400)
-    return JsonResponse(response, encoder=JSONEncoder)
 
 
 def fac(number):
@@ -26,13 +38,24 @@ def fac(number):
 
 
 def factorial(request):
-    number = int(request.GET['number'])
-    if number >= 0:
-        response = {f'factorial({number})': fac(number)}
-    else:
-        response = {'error': 'number must be equal or greater than 0'}
+    try:
+        number = int(request.GET['number'])
+        if number >= 0:
+            start = time()
+            result = fac(number)
+            end = time()
+            runtime = end - start
+            response = {
+                f'factorial({number})': result,
+                'runtime': runtime
+            }
+            return JsonResponse(response, encoder=JSONEncoder)
+        else:
+            response = {'error': 'number must be equal or greater than 0'}
+            return JsonResponse(response, encoder=JSONEncoder, status=400)
+    except Exception:
+        response = {'error': 'argument must be integer'}
         return JsonResponse(response, encoder=JSONEncoder, status=400)
-    return JsonResponse(response, encoder=JSONEncoder)
 
 
 def ack(number1, number2):
@@ -45,11 +68,22 @@ def ack(number1, number2):
 
 
 def ackermann(request):
-    number1 = int(request.GET['number1'])
-    number2 = int(request.GET['number2'])
-    if number1 >= 0 and number2 >= 0:
-        response = {f'ackermann({number1},{number2})': ack(number1, number2)}
-    else:
-        response = {'error': 'numbers must be equal or greater than 0'}
+    try:
+        number1 = int(request.GET['number1'])
+        number2 = int(request.GET['number2'])
+        if number1 >= 0 and number2 >= 0:
+            start = time()
+            result = ack(number1, number2)
+            end = time()
+            runtime = end - start
+            response = {
+                f'ackermann({number1},{number2})': result,
+                'runtime': runtime
+            }
+            return JsonResponse(response, encoder=JSONEncoder)
+        else:
+            response = {'error': 'numbers must be equal or greater than 0'}
+            return JsonResponse(response, encoder=JSONEncoder, status=400)
+    except Exception:
+        response = {'error': 'arguments must be integer'}
         return JsonResponse(response, encoder=JSONEncoder, status=400)
-    return JsonResponse(response, encoder=JSONEncoder)
