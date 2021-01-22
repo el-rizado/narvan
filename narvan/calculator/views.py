@@ -1,6 +1,5 @@
-from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
-import json
+from json import JSONEncoder
+from django.http import JsonResponse, HttpResponseBadRequest
 
 
 def fib(number):
@@ -9,14 +8,14 @@ def fib(number):
     return fib(number - 2) + fib(number - 1)
 
 
-def fibonacci(request, number):
-    # return render(request, 'base.html')
-    if request.method == 'GET':
-        if number >= 0:
-            response = {f'fibonacci( {number} )': fib(number-1)}
-        else:
-            response = {'error': 'number must be positive'}
-    return JsonResponse(response)
+def fibonacci(request):
+    number = int(request.GET['number'])
+    if number > 0:
+        response = {f'fibonacci({number})': fib(number-1)}
+    else:
+        response = 'number must be positive'
+        return HttpResponseBadRequest(response)
+    return JsonResponse(response, encoder=JSONEncoder)
 
 
 def fac(number):
@@ -26,10 +25,31 @@ def fac(number):
     return fac_sum
 
 
-def factorial(request, number):
-    if request.method == 'GET':
-        if number >= 0:
-            response = {f'factorial( {number} )': fac(number)}
-        else:
-            response = {'error': 'number must be positive'}
-    return JsonResponse(response)
+def factorial(request):
+    number = int(request.GET['number'])
+    if number >= 0:
+        response = {f'factorial({number})': fac(number)}
+    else:
+        response = 'number must be equal or greater than 0'
+        return HttpResponseBadRequest(response)
+    return JsonResponse(response, encoder=JSONEncoder)
+
+
+def ack(number1, number2):
+    if number1 == 0:
+        return number2+1
+    elif number1 > 0 and number2 == 0:
+        return ack(number1-1, 1)
+    else:
+        return ack(number1-1, ack(number1, number2-1))
+
+
+def ackermann(request):
+    number1 = int(request.GET['number1'])
+    number2 = int(request.GET['number2'])
+    if number1 >= 0 and number2 >= 0:
+        response = {f'ackermann({number1},{number2})': ack(number1, number2)}
+    else:
+        response = 'numbers must be equal or greater than 0'
+        return HttpResponseBadRequest(response)
+    return JsonResponse(response, encoder=JSONEncoder)

@@ -3,7 +3,8 @@ from django.urls import path, include
 from . import views
 
 urlpatterns = [
-    path('fibonacci/<int:number>', views.fibonacci, name='fibonacci'),
-    path('factorial/<int:number>', views.factorial, name='factorial'),
+    path('fibonacci/', views.fibonacci, name='fibonacci'),
+    path('factorial/', views.factorial, name='factorial'),
+    path('ackermann/', views.ackermann, name='ackermann'),
 
 ]
